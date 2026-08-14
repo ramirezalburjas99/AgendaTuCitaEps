@@ -1,0 +1,23 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Estilo para tablas, si listas pacientes en una tabla */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Scrollbar más agradable (opcional, detalle visual) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #94a3b8;
+    border-radius: 4px;
+}

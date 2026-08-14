@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Doctor</title>
+</head>
+<body>
+
+<h1 th:text="${doctores.idDoctor == null} ? 'Registrar Doctor' : 'Editar Doctor'">
+    Formulario Doctor
+</h1>
+
+<hr>
+
+<form th:action="@{/view/doctores/save}"
+      th:object="${doctores}"
+      method="post">
+
+    <!-- Campo oculto para el ID -->
+    <input type="hidden" th:field="*{idDoctor}">
+
+    <table>
+
+        <tr>
+            <td><label>Tipo de Documento:</label></td>
+            <td>
+                <input type="text"
+                       th:field="*{tipoDeDocumento}"
+                       required>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Documento:</label></td>
+            <td>
+                <input type="number"
+                       th:field="*{documento}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Nombre Completo:</label></td>
+            <td>
+                <input type="text"
+                       th:field="*{nombreCompleto}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Licencia:</label></td>
+            <td>
+                <input type="text"
+                       th:field="*{licencia}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Correo:</label></td>
+            <td>
+                <input type="email"
+                       th:field="*{correo}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Dirección de Residencia:</label></td>
+            <td>
+                <input type="text"
+                       th:field="*{direccionDoctor}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Telefono:</label></td>
+            <td>
+                <input type="number"
+                       th:field="*{telefono}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Contacto de Emergenciar:</label></td>
+            <td>
+                <input type="number"
+                       th:field="*{contactoEmergencia}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label>Contraseña:</label>
+            </td>
+            <td>
+                <input type="password"
+                       th:field="*{contrasena}">
+
+                <span th:if="${doctores.idDoctor != null}">
+                        (Debe cambiar la contraseña actual)
+                    </span>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td colspan="2">
+
+                <button type="submit">
+                    Guardar
+                </button>
+
+                <a th:href="@{/view/doctores}">
+                    Volver
+                </a>
+
+            </td>
+        </tr>
+
+    </table>
+
+</form>
+
+</body>
+</html>

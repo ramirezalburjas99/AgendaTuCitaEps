@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Paciente</title>
+</head>
+<body>
+
+<h1 th:text="${pacientes.idPaciente == null} ? 'Registrar Paciente' : 'Editar Paciente'">
+    Formulario Paciente
+</h1>
+
+<hr>
+
+<form th:action="@{/view/pacientes/save}"
+      th:object="${pacientes}"
+      method="post">
+
+    <!-- Campo oculto para el ID -->
+    <input type="hidden" th:field="*{idPaciente}">
+
+    <table>
+
+        <tr>
+            <td><label>Tipo de Documento:</label></td>
+            <td>
+                <input type="text"
+                       th:field="*{tipoDeDocumento}"
+                       required>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Documento:</label></td>
+            <td>
+                <input type="number"
+                       th:field="*{documento}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Nombre Completo:</label></td>
+            <td>
+                <input type="text"
+                       th:field="*{nombreCompleto}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Genero:</label></td>
+            <td>
+                <input type="text"
+                       th:field="*{genero}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Fecha de Nacimiento:</label></td>
+            <td>
+                <input type="date"
+                       th:field="*{fechaNacimiento}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Correo:</label></td>
+            <td>
+                <input type="email"
+                       th:field="*{correo}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>EPS:</label></td>
+            <td>
+                <input type="text"
+                       th:field="*{eps}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Dirección de Residencia:</label></td>
+            <td>
+                <input type="text"
+                       th:field="*{direccionPaciente}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Telefono:</label></td>
+            <td>
+                <input type="number"
+                       th:field="*{telefono}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Contacto de Emergenciar:</label></td>
+            <td>
+                <input type="number"
+                       th:field="*{contactoEmergencia}"
+                       required>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label>Contraseña:</label>
+            </td>
+            <td>
+                <input type="password"
+                       th:field="*{contrasena}">
+
+                <span th:if="${pacientes.idPaciente != null}">
+                        (Debe cambiar la contraseña actual)
+                    </span>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td colspan="2">
+
+                <button type="submit">
+                    Guardar
+                </button>
+
+                <a th:href="@{/view/pacientes}">
+                    Volver
+                </a>
+
+            </td>
+        </tr>
+
+    </table>
+
+</form>
+
+</body>
+</html>
