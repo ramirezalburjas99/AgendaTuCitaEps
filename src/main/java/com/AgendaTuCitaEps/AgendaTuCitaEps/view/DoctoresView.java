@@ -39,7 +39,7 @@ public class DoctoresView
         return "redirect:/view/doctores";
     }
 
-    @GetMapping ("view/doctores/update/{id}")
+    @GetMapping ("/view/doctores/update/{id}")
     public String update (@PathVariable Long id, Model model)
     {
         Doctores doctores = doctoresRepository.findById(id).orElse(null);

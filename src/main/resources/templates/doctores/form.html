@@ -2,128 +2,160 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario Doctor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${doctores.idDoctor == null}
+        ? 'Registrar Doctor'
+        : 'Editar Doctor'">
+        Formulario Doctor
+    </title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 
-<h1 th:text="${doctores.idDoctor == null} ? 'Registrar Doctor' : 'Editar Doctor'">
-    Formulario Doctor
-</h1>
+<header class="app-header">
+    <div class="app-container" style="padding-top:1.5rem; padding-bottom:1.5rem; display:flex; align-items:center; justify-content:space-between;">
+        <div>
+            <h1 class="app-header-title"
+                th:text="${doctores.idDoctor == null}
+                    ? 'Registrar Doctor'
+                    : 'Editar Doctor'">
+                Formulario doctor
+            </h1>
+            <p class="app-header-description"
+               th:text="${doctores.idDoctor == null}
+                    ? 'Complete la información para registrar un nuevo doctor.'
+                    : 'Actualice la información del doctor seleccionado.'">
+                Complete la información del doctor.
+            </p>
+        </div>
 
-<hr>
+        <span class="badge badge-primary"
+              th:text="${doctores.idDoctor == null} ? 'Nuevo registro' : 'Modificación'">
+            Gestión de Doctores
+        </span>
+    </div>
+</header>
 
-<form th:action="@{/view/doctores/save}"
-      th:object="${doctores}"
-      method="post">
+<main class="app-container" style="max-width: 800px;">
 
-    <!-- Campo oculto para el ID -->
-    <input type="hidden" th:field="*{idDoctor}">
+    <div class="card">
 
-    <table>
+        <div class="card-header">
+            <h2 class="section-title">Información del doctor</h2>
+            <p class="description">
+                Los campos marcados con <span class="required">*</span> son obligatorios.
+            </p>
+        </div>
 
-        <tr>
-            <td><label>Tipo de Documento:</label></td>
-            <td>
-                <input type="text"
-                       th:field="*{tipoDeDocumento}"
-                       required>
-            </td>
-        </tr>
-        <tr>
-            <td><label>Documento:</label></td>
-            <td>
-                <input type="number"
-                       th:field="*{documento}"
-                       required>
-            </td>
-        </tr>
+        <form th:action="@{/view/doctores/save}"
+              th:object="${doctores}"
+              method="post">
 
-        <tr>
-            <td><label>Nombre Completo:</label></td>
-            <td>
-                <input type="text"
-                       th:field="*{nombreCompleto}"
-                       required>
-            </td>
-        </tr>
+            <div class="card-body">
 
-        <tr>
-            <td><label>Licencia:</label></td>
-            <td>
-                <input type="text"
-                       th:field="*{licencia}"
-                       required>
-            </td>
-        </tr>
+                <!-- Campo oculto para el ID -->
+                <input type="hidden" th:field="*{idDoctor}">
 
-        <tr>
-            <td><label>Correo:</label></td>
-            <td>
-                <input type="email"
-                       th:field="*{correo}"
-                       required>
-            </td>
-        </tr>
+                <!-- Tipo de documento -->
+                <div class="form-group">
+                    <label for="tipoDeDocumento" class="form-label">
+                        Tipo de documento <span class="required">*</span>
+                    </label>
+                    <select id="tipoDeDocumento" th:field="*{tipoDeDocumento}" class="form-control" required>
+                        <option value="" disabled selected>Seleccione...</option>
+                        <option value="CC">CC - Cédula de ciudadanía</option>
+                        <option value="PA">PA - Pasaporte</option>
+                        <option value="CE">CE - Cédula de extranjería</option>
+                        <option value="PT">PT - Permiso por protección temporal</option>
+                    </select>
+                </div>
 
-        <tr>
-            <td><label>Dirección de Residencia:</label></td>
-            <td>
-                <input type="text"
-                       th:field="*{direccionDoctor}"
-                       required>
-            </td>
-        </tr>
+                <!-- Documento -->
+                <div class="form-group">
+                    <label for="documento" class="form-label">
+                        Número de documento <span class="required">*</span>
+                    </label>
+                    <input type="number" id="documento" th:field="*{documento}"
+                           class="form-control" required>
+                </div>
 
-        <tr>
-            <td><label>Telefono:</label></td>
-            <td>
-                <input type="number"
-                       th:field="*{telefono}"
-                       required>
-            </td>
-        </tr>
+                <!-- Nombre completo -->
+                <div class="form-group">
+                    <label for="nombreCompleto" class="form-label">
+                        Nombre completo <span class="required">*</span>
+                    </label>
+                    <input type="text" id="nombreCompleto" th:field="*{nombreCompleto}"
+                           class="form-control" required>
+                </div>
 
-        <tr>
-            <td><label>Contacto de Emergenciar:</label></td>
-            <td>
-                <input type="number"
-                       th:field="*{contactoEmergencia}"
-                       required>
-            </td>
-        </tr>
+                <!-- Licencia -->
+                <div class="form-group">
+                    <label for="licencia" class="form-label">
+                        Licencia <span class="required">*</span>
+                    </label>
+                    <input type="text" id="licencia" th:field="*{licencia}"
+                           class="form-control" required>
+                </div>
 
-        <tr>
-            <td>
-                <label>Contraseña:</label>
-            </td>
-            <td>
-                <input type="password"
-                       th:field="*{contrasena}">
+                <!-- Correo -->
+                <div class="form-group">
+                    <label for="correo" class="form-label">
+                        Correo <span class="required">*</span>
+                    </label>
+                    <input type="email" id="correo" th:field="*{correo}"
+                           class="form-control" required>
+                </div>
 
-                <span th:if="${doctores.idDoctor != null}">
-                        (Debe cambiar la contraseña actual)
+                <!-- Dirección -->
+                <div class="form-group">
+                    <label for="direccionDoctor" class="form-label">
+                        Dirección de residencia <span class="required">*</span>
+                    </label>
+                    <input type="text" id="direccionDoctor" th:field="*{direccionDoctor}"
+                           class="form-control" required>
+                </div>
+
+                <!-- Teléfono -->
+                <div class="form-group">
+                    <label for="telefono" class="form-label">
+                        Teléfono <span class="required">*</span>
+                    </label>
+                    <input type="number" id="telefono" th:field="*{telefono}"
+                           class="form-control" required>
+                </div>
+
+                <!-- Contacto de emergencia -->
+                <div class="form-group">
+                    <label for="contactoEmergencia" class="form-label">
+                        Contacto de emergencia <span class="required">*</span>
+                    </label>
+                    <input type="number" id="contactoEmergencia" th:field="*{contactoEmergencia}"
+                           class="form-control" required>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group">
+                    <label for="contrasena" class="form-label">Contraseña</label>
+                    <input type="password" id="contrasena" th:field="*{contrasena}"
+                           class="form-control">
+                    <span th:if="${doctores.idDoctor != null}" class="form-help">
+                        Deje este campo vacío si no desea cambiar la contraseña actual.
                     </span>
-            </td>
-        </tr>
+                </div>
 
+            </div>
 
-        <tr>
-            <td colspan="2">
+            <div class="card-footer" style="display:flex; gap:0.75rem; justify-content:flex-end;">
+                <a th:href="@{/view/doctores}" class="btn btn-secondary">Volver</a>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
 
-                <button type="submit">
-                    Guardar
-                </button>
+        </form>
+    </div>
 
-                <a th:href="@{/view/doctores}">
-                    Volver
-                </a>
-
-            </td>
-        </tr>
-
-    </table>
-
-</form>
-
+</main>
 </body>
 </html>

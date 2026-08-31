@@ -3,135 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Doctores registrados</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="@{/css/style.css}" rel="stylesheet">
-
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen p-8">
+<body>
 
-<h1 class="text-2xl font-bold text-gray-800 mb-4">Gestión de Doctores</h1>
+<header class="app-header">
+    <div class="app-container" style="padding-top:1.5rem; padding-bottom:1.5rem;">
+        <h1 class="app-header-title">Gestión de Doctores</h1>
+        <p class="app-header-description">Listado de doctores registrados en el sistema.</p>
+    </div>
+</header>
 
-<!-- Mensaje del registro exitoso del doctor -->
-<div th:if="${success}" class="bg-green-100 text-green-800 border border-green-300 rounded p-3 mb-4">
-    <p th:text="${success}"></p>
-</div>
+<main class="app-container">
 
-<hr class="my-4 border-gray-300">
-<h2>Doctores registrados</h2>
+    <div th:if="${success}" class="alert alert-success">
+        <p th:text="${success}"></p>
+    </div>
 
-<table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-    <tr>
-        <th>Acciones</th>
-        <th>ID Doctor</th>
-        <th>Tipo de Documento</th>
-        <th>Documento</th>
-        <th>Nombre Completo</th>
-        <th>Licencia</th>
-        <th>Correo</th>
-        <th>Dirección</th>
-        <th>Telefono</th>
-        <th>Contacto de Emergencia</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    <!-- Recorrer la lista de usuarios -->
-    <tr th:each="doctor : ${doctores}">
-
-        <td>
-
-            <!-- Editar -->
-            <a th:href="@{'/view/doctores/update/' + ${doctor.idDoctor}}" class="inline-block bg-gray-300 rounded text-black px-4 py-2 hover:bg-green-600">
-                Editar
+    <div class="card">
+        <div class="card-header" style="display:flex; align-items:center; justify-content:space-between;">
+            <h2 class="section-title">Doctores registrados</h2>
+            <a href="/view/doctores/form" class="btn btn-primary">
+                Registrar Doctor
             </a>
+        </div>
 
-            <!-- Eliminar -->
-            <form th:action="@{'/view/doctores/delete/' + ${doctor.idDoctor}}" class="inline-block bg-gray-300 rounded text-black px-4 py-2 hover:bg-red-600"
-                  method="post">
+        <div class="table-container">
+            <table class="app-table">
+                <thead>
+                <tr>
+                    <th>Acciones</th>
+                    <th>ID Doctor</th>
+                    <th>Tipo de Documento</th>
+                    <th>Documento</th>
+                    <th>Nombre Completo</th>
+                    <th>Licencia</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Contacto de Emergencia</th>
+                </tr>
+                </thead>
+                <tbody>
 
-                <button type="submit">
-                    Eliminar
-                </button>
+                <tr th:each="doctor : ${doctores}">
 
-            </form>
+                    <td>
+                        <div class="table-actions">
+                            <a th:href="@{'/view/doctores/update/' + ${doctor.idDoctor}}"
+                               class="btn btn-sm btn-secondary">
+                                ✏️ Editar
+                            </a>
 
-        </td>
+                            <form th:action="@{'/view/doctores/delete/' + ${doctor.idDoctor}}" method="post">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    🗑️ Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </td>
 
-        <td th:text="${doctor.idDoctor}"></td>
+                    <td th:text="${doctor.idDoctor}"></td>
+                    <td th:text="${doctor.tipoDeDocumento}"></td>
+                    <td th:text="${doctor.documento}"></td>
+                    <td th:text="${doctor.nombreCompleto}"></td>
+                    <td th:text="${doctor.licencia}"></td>
+                    <td th:text="${doctor.correo}"></td>
+                    <td th:text="${doctor.direccionDoctor}"></td>
+                    <td th:text="${doctor.telefono}"></td>
+                    <td th:text="${doctor.contactoEmergencia}"></td>
+                </tr>
 
-        <td th:text="${doctor.tipoDeDocumento}"></td>
-
-        <td th:text="${doctor.documento}"></td>
-
-        <td th:text="${doctor.nombreCompleto}"></td>
-
-        <td th:text="${doctor.licencia}"></td>
-
-        <td th:text="${doctor.correo}"></td>
-
-        <td th:text="${doctor.direccionDoctor}"></td>
-
-        <td th:text="${doctor.telefono}"></td>
-
-        <td th:text="${doctor.contactoEmergencia}"></td>
-
-    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Si no existen doctores -->
-    <tr th:if="${doctores == null or #lists.isEmpty(doctores)}">
-
-        <td colspan="10"
-            class="px-6 py-16 text-center">
-
-            <div class="mx-auto flex max-w-md flex-col items-center">
-
-                <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         fill="none"
-                         viewBox="0 0 24 24"
-                         stroke-width="1.5"
-                         stroke="currentColor"
-                         class="h-9 w-9">
-
-                        <path stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.205-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197A5.971 5.971 0 0 0 6 18.719M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-15 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
-
-                    </svg>
-
-                </div>
-
-                <h3 class="text-lg font-bold text-slate-800">
-                    No hay doctores registrados
-                </h3>
-
-                <p class="mt-2 text-sm text-slate-500">
-                    Registra el primer doctor para comenzar a administrar el sistema.
-                </p>
-
-                <a th:href="@{/view/doctores/form}"
-                   class="mt-5 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-green-600">
-                    Registrar el primer doctor
-                </a>
-
+        <div th:if="${doctores == null or #lists.isEmpty(doctores)}" class="empty-state">
+            <div class="empty-state-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" style="width:2rem;height:2rem;">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.205-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197A5.971 5.971 0 0 0 6 18.719M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-15 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
+                </svg>
             </div>
+            <h3 class="empty-state-title">No hay doctores registrados</h3>
+            <p class="empty-state-description">Registra el primer doctor para comenzar a administrar el sistema.</p>
+            <a th:href="@{/view/doctores/form}" class="btn btn-primary" style="margin-top:1.25rem;">
+                Registrar el primer doctor
+            </a>
+        </div>
 
-        </td>
-
-    </tr>
-    </tbody>
-
-</table>
-
-<!--Botón registrar doctor-->
-<a href="/view/doctores/form" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-green-600">
-    Registrar Doctor
-</a>
+    </div>
+</main>
 
 </body>
 </html>

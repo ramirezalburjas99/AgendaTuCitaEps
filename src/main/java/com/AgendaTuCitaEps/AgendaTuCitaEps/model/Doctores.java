@@ -54,4 +54,8 @@ public class Doctores
 
     @NotBlank(message = "La contraseña es obligatoria")
     private String contrasena;
+
+    @ManyToOne
+    @JoinColumn(name = "id_sede")
+    private Sede sede;
 }

@@ -23,7 +23,4 @@ public class Sede
     @NotBlank(message = "El telefono es obligatorio")
     private String telefono;
 
-    @ManyToOne
-    @JoinColumn(name = "id_sede")
-    private Sede sede;
 }

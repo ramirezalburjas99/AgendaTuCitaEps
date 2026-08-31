@@ -17,7 +17,7 @@ public class SedeView
     @GetMapping("/view/sede")
     public String lista(Model model)
     {
-        model.addAttribute("sedes", sedeRepository.findAll());
+        model.addAttribute("sede", sedeRepository.findAll());
         return "sede/list";
     }
 
