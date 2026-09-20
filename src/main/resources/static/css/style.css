@@ -104,6 +104,7 @@ a {
 }
 
 
+
 /* =========================
    CONTENEDORES
    ========================= */
@@ -129,7 +130,7 @@ a {
 .card-header {
     padding: 1.5rem;
 
-    background-color: #f8fafc;
+    background-color: #caf0f8;
     border-bottom: 1px solid #e2e8f0;
 }
 
@@ -143,7 +144,22 @@ a {
     background-color: #f8fafc;
     border-top: 1px solid #e2e8f0;
 }
+/*=============
+Agrego una nueva clase para mi LOGIN
+ */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1.5rem;
+    background-color: var(--color-fondo);
+}
 
+.login-container .card {
+    width: 100%;
+    max-width: 420px;
+}
 
 /* =========================
    TÍTULOS
