@@ -60,6 +60,54 @@ body {
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+}
+/* =========================
+   PÁGINA DE MANTENIMIENTO
+   ========================= */
+.mantenimiento {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 80px;
+    text-align: center;
+    box-sizing: border-box;
+
+}
+.mantenimiento::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/Mantenimiento.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 50%;
+    z-index: -1;
+}
+.contenido-mantenimiento{
+    max-width: 800px;
+    color: #0f172a;
+}
+.titulo-mantenimiento{
+    font-size: 4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+.descripcion-mantenimiento {
+    font-size: 1.7rem;
+    color: #3b3737;
+    margin-botton:30px;
+    line-height:1.5;
 }
 
 img,
