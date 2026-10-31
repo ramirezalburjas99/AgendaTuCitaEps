@@ -51,7 +51,7 @@
                                 ✏️ Editar
                             </a>
 
-                            <form th:action="@{'/view/sede/delete/' + ${sedeItem.idSede}}" method="post">
+                            <form th:action="@{'/view/sede/delete/' + ${sedeItem.idSede}}" method="post" onsubmit="return confirmarEliminacion('Sede')">
                                 <button type="submit" class="btn btn-sm btn-danger">
                                     🗑️ Eliminar
                                 </button>
@@ -86,6 +86,6 @@
 
     </div>
 </main>
-
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>
