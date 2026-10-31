@@ -64,7 +64,7 @@
 
                             <!-- Eliminar -->
                             <form th:action="@{'/view/pacientes/delete/' + ${paciente.idPaciente}}"
-                                  method="post">
+                                  method="post" onsubmit= "return confirmarEliminacion('paciente')">
                                 <button type="submit" class="btn btn-sm btn-danger">
                                     🗑️ Eliminar
                                 </button>

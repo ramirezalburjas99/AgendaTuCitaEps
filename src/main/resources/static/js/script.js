@@ -1,7 +1,5 @@
-function confirmarEliminacion() {
-    return confirm(
-        "¿Está seguro de que desea eliminar este usuario? Esta acción no se puede deshacer."
-    );
+function confirmarEliminacion(entidad) {
+    return confirm(`¿Está seguro de que desea eliminar este ${entidad}? Esta acción no se puede deshacer.`);
 }
 
 function alternarContrasena() {
