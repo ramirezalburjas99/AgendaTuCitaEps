@@ -1,0 +1,323 @@
+/* ============================================================
+   calendario.css: estilos que solo se aplican al calendario, bajo de #contenedor-calendario
+   para no interferir con los estilos de style.css
+   ============================================================ */
+
+#contenedor-calendario {
+    --cal-borde: #e3e7ee;
+    --cal-texto: #1f2937;
+    --cal-suave: #6b7280;
+    --cal-azul: #2f6fd6;
+    --cal-azul-fondo: #e8f1fd;
+    --cal-azul-borde: #8db4ee;
+    --cal-gris-fondo: #f3f4f7;
+
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--cal-texto);
+    max-width: 1100px;
+}
+
+#contenedor-calendario * {
+    box-sizing: border-box;
+}
+
+/* Tarjeta */
+#contenedor-calendario .cal-tarjeta {
+    background: #fff;
+    border: 1px solid var(--cal-borde);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Barra superior */
+#contenedor-calendario .cal-cabecera {
+    padding: 20px 20px 0;
+}
+
+#contenedor-calendario .cal-barra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+#contenedor-calendario .cal-barra-izq {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#contenedor-calendario .cal-titulo {
+    margin: 0 10px 0 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#contenedor-calendario button {
+    font: inherit;
+    cursor: pointer;
+}
+
+#contenedor-calendario .cal-icono {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--cal-suave);
+}
+
+#contenedor-calendario .cal-icono:hover {
+    background: var(--cal-gris-fondo);
+}
+
+#contenedor-calendario .cal-hoy {
+    margin-left: 4px;
+    padding: 6px 14px;
+    border: 1px solid var(--cal-borde);
+    background: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+#contenedor-calendario .cal-hoy:hover {
+    background: var(--cal-gris-fondo);
+}
+
+/* Selector de vista */
+#contenedor-calendario .cal-vistas {
+    display: flex;
+    padding: 3px;
+    background: var(--cal-gris-fondo);
+    border-radius: 8px;
+}
+
+#contenedor-calendario .cal-vista {
+    padding: 5px 14px;
+    border: 0;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--cal-suave);
+}
+
+#contenedor-calendario .cal-vista.activa {
+    background: #fff;
+    color: var(--cal-azul);
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+#contenedor-calendario .cal-vista:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#contenedor-calendario .cal-rango {
+    display: flex;
+    justify-content: space-between;
+    margin: 18px 0 12px;
+    font-size: 12px;
+    color: var(--cal-suave);
+}
+
+/* Grilla */
+#contenedor-calendario .cal-grilla {
+    display: grid;
+    grid-template-columns: 72px repeat(5, minmax(0, 1fr));
+    grid-auto-rows: 33px;
+    grid-template-rows: 64px;
+    border-top: 1px solid var(--cal-borde);
+}
+
+#contenedor-calendario .cal-esquina {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 6px;
+    font-size: 10px;
+    color: var(--cal-suave);
+    border-bottom: 1px solid var(--cal-borde);
+}
+
+#contenedor-calendario .cal-dia {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border-bottom: 1px solid var(--cal-borde);
+    border-left: 1px solid var(--cal-borde);
+}
+
+#contenedor-calendario .cal-dia.hoy {
+    background: var(--cal-gris-fondo);
+}
+
+#contenedor-calendario .cal-dia-nombre {
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--cal-suave);
+}
+
+#contenedor-calendario .cal-dia.hoy .cal-dia-nombre {
+    color: var(--cal-azul);
+}
+
+#contenedor-calendario .cal-dia-numero {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+#contenedor-calendario .cal-dia.hoy .cal-dia-numero {
+    background: var(--cal-azul);
+    color: #fff;
+}
+
+/* Horas y celdas */
+#contenedor-calendario .cal-hora {
+    padding: 2px 8px 0 0;
+    text-align: right;
+    font-size: 10px;
+    color: var(--cal-suave);
+}
+
+#contenedor-calendario .cal-celda {
+    padding: 2px 4px;
+    border-left: 1px solid var(--cal-borde);
+    border-bottom: 1px solid #f0f2f6;
+    min-width: 0;
+}
+
+#contenedor-calendario .cal-bloqueado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cal-gris-fondo);
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+/* Eventos */
+#contenedor-calendario .cal-evento {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 8px;
+    border-radius: 4px;
+    text-align: left;
+    font-size: 12px;
+    line-height: 1.3;
+    overflow: hidden;
+}
+
+#contenedor-calendario .cal-evento-principal {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#contenedor-calendario .cal-evento-detalle {
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#contenedor-calendario .cal-cita {
+    background: var(--cal-azul-fondo);
+    border-left: 2px solid var(--cal-azul);
+    color: var(--cal-texto);
+}
+
+#contenedor-calendario .cal-cita .cal-evento-detalle {
+    color: var(--cal-azul);
+}
+
+#contenedor-calendario .cal-disponible {
+    background: #fff;
+    border: 1px dashed var(--cal-azul-borde);
+    color: var(--cal-azul);
+}
+
+#contenedor-calendario .cal-disponible .cal-evento-detalle {
+    color: var(--cal-suave);
+}
+
+#contenedor-calendario .cal-disponible:hover {
+    background: var(--cal-azul-fondo);
+}
+
+#contenedor-calendario .cal-disponible:focus-visible {
+    outline: 2px solid var(--cal-azul);
+    outline-offset: 1px;
+}
+
+#contenedor-calendario .cal-disponible.seleccionado {
+    background: var(--cal-azul);
+    border: 1px solid var(--cal-azul);
+    color: #fff;
+}
+
+#contenedor-calendario .cal-disponible.seleccionado .cal-evento-detalle {
+    color: #dbe7fb;
+}
+
+/* Pie */
+#contenedor-calendario .cal-pie {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 14px 20px;
+    border-top: 1px solid var(--cal-borde);
+    font-size: 11px;
+    color: var(--cal-suave);
+}
+
+#contenedor-calendario .cal-leyenda {
+    display: flex;
+    gap: 18px;
+}
+
+#contenedor-calendario .cal-leyenda-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#contenedor-calendario .cal-muestra {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+}
+
+#contenedor-calendario .cal-muestra-cita {
+    border: 1px solid var(--cal-azul);
+    background: var(--cal-azul-fondo);
+}
+
+#contenedor-calendario .cal-muestra-disp {
+    border: 1px dashed var(--cal-azul-borde);
+}
+
+/* Pantallas pequeñas: la grilla se desplaza dentro de la tarjeta */
+@media (max-width: 760px) {
+    #contenedor-calendario .cal-grilla {
+        min-width: 680px;
+    }
+
+    #contenedor-calendario .cal-tarjeta {
+        overflow-x: auto;
+    }
+}
