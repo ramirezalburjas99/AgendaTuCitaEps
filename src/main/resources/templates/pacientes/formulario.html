@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-        Registro Paciente
+        Formulario de registro
     </title>
 
     <!-- CSS global del sistema -->
@@ -20,17 +20,18 @@
         <div>
             <h1 class="app-header-title"
                 th:text="${pacientes.idPaciente == null}
-                    ? 'Registrar Paciente'
+                    ? 'Formulario de Registro'
                     : 'Editar Paciente'">
-                Formulario paciente
             </h1>
 
             <p class="app-header-description"
                th:text="${pacientes.idPaciente == null}
-                    ? 'Tome su tiempo para completar todos los campos.'
+                    ? 'Tome su tiempo para completar todos los campos'
                     : 'Actualice la información del paciente seleccionado.'">
                 Complete la información del paciente.
             </p>
+        </div>
+    </div>
 </header>
 
 <!-- Contenido principal -->
