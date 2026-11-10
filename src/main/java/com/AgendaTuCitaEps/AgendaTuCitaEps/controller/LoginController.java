@@ -44,10 +44,5 @@ public class LoginController
         return "/homePage/home";
     }
 
-    @GetMapping("/formulario")
-    public String mostrarFormulario(Model model){
-        model.addAttribute("pacientes", new Pacientes());
-        return "/pacientes/formulario";}
-
 }
 

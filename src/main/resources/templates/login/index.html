@@ -8,6 +8,12 @@
     <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
+
+<!--Mensaje que confirma los datos registrados -->
+<div th:if="${success}" class="alert alert-success">
+    <p th:text="${success}"></p>
+</div>
+
 <!-- El encabezado para el inicio de sesión-->
     <div class="login-container">
         <div class = "card">
@@ -15,7 +21,7 @@
                 <img th:src="@{/img/LOGO.png}" alt="logo-Citas" style="max-width: 120px; margin-bottom: 1rem;">
                 <h1 class="page-title">Agenda Fácil</h1>
                 <p class="description">Organiza tus citas sin complicaciones</p>
-                <a th:href="@{/formulario}">Registrate aquí</a>
+                <a th:href="@{view/formulario}">Registrate aquí</a>
             </div>
 <!--Formulario de inición de Sesión-->
             <div class="card-body">

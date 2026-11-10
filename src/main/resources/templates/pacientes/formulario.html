@@ -20,14 +20,12 @@
         <div>
             <h1 class="app-header-title"
                 th:text="${pacientes.idPaciente == null}
-                    ? 'Formulario de Registro'
-                    : 'Editar Paciente'">
+                    ? 'Formulario de Registro'">
             </h1>
 
             <p class="app-header-description"
                th:text="${pacientes.idPaciente == null}
-                    ? 'Tome su tiempo para completar todos los campos'
-                    : 'Actualice la información del paciente seleccionado.'">
+                    ? 'Tome su tiempo para completar todos los campos'">
                 Complete la información del paciente.
             </p>
         </div>
@@ -47,7 +45,7 @@
         </div>
 
         <!-- Formulario -->
-        <form th:action="@{/view/pacientes/save}"
+        <form th:action="@{/view/autoregistro/save}"
               th:object="${pacientes}"
               method="post">
 
@@ -174,7 +172,7 @@
 
             <!-- Pie del formulario con acciones -->
             <div class="card-footer" style="display:flex; gap:0.75rem; justify-content:flex-end;">
-                <a th:href="@{/view/pacientes}" class="btn btn-secondary">
+                <a th:href="@{/inicio}" class="btn btn-secondary">
                     Volver
                 </a>
                 <button type="submit" class="btn btn-primary">
