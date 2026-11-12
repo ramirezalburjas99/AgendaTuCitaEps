@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <title>Home Page</title>
     <link th:href="@{/css/calendario.css}" rel="stylesheet">
+    <link th:href="@{/css/layout.css}" rel="stylesheet">
 </head>
+
 <body>
-        <h1>CALENDARIO EN TIEMPO REAL</h1>
-        <h2>PRUEBA NRO 1</h2>
-        <h2>¡Bienvenido(a), <span th:text="${pacientes.nombreCompleto}">Paciente</span>!</h2>
+<div th:replace="fragments/barraSuperior :: barraSuperior"></div>
+    <div class="contenedor-pagina">
+    <aside>
 
+    </aside>
+    <main>
+        <h1>Agenda</h1>
+        <h2>agenda las citas que necesites con el especialista que deseas</h2>
         <div id="contenedor-calendario"></div>
-
+    </main>
+    </div>
 <script th:src="@{/js/calendario.js}"></script>
 </body>
 </html>

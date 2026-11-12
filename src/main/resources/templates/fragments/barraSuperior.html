@@ -1,0 +1,35 @@
+<header class="barra-superior, barra-nav a"
+        th:fragment="barraSuperior"
+        xmlns:th="https://www.thymeleaf.org">
+    <div>
+        <a th:href="@{/home}" class="barra-marca">
+            <img th:src="@{/img/LOGO.png}" alt="logo-Citas" class="barra-logo">
+            <span>
+                Agenda Fácil
+            </span>
+        </a>
+    </div>
+    <nav class="barra-nav">
+        <a th:href="@{/home}" class="barra-nav">
+            Agenda
+        </a>
+        <!--Agregar enlaces a las paginas-->
+        <a>
+            Mis citas
+        </a>
+        <a>
+            Doctores
+        </a>
+        <a>
+            Sede
+        </a>
+    </nav>
+
+    <div class="barra-usuario">
+        <span th:text="${pacientes.nombreCompleto}">Paciente</span>
+        <a href="#"> Cerrar sesión</a>
+    </div>
+
+
+</header>
+

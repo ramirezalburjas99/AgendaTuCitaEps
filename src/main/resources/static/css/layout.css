@@ -1,0 +1,36 @@
+.barra-superior {
+    background: #ffffff;
+    border-bottom: #9ca3af 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 5px 2px;
+    margin:0px
+}
+
+    .barra-marca {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+
+    .barra-nav {
+        display: flex;
+        gap: 24px;
+    }
+    .barra-nav a {
+        text-decoration: none;
+        color: #9ca3af;
+    }
+
+
+.barra-usuario {
+        }
+
+    .barra-logo {
+        height: 40px;
+        width: auto;
+    }
+
