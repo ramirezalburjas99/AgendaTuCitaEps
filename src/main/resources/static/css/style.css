@@ -138,7 +138,7 @@ a {
    ========================= */
 
 .app-header {
-    background-color: var(--color-secundario);
+    background-color: var(--color-principal);
     box-shadow: var(--sombra-media);
 }
 
@@ -207,6 +207,22 @@ Agrego una nueva clase para mi LOGIN
 .login-container .card {
     width: 100%;
     max-width: 420px;
+}
+.enlace-auto-registro{
+    display: inline-block;
+    padding: 0.4rem 1.1rem;
+    border: 1px solid transparent;
+    border-radius: var(--radio-medio);
+    color: #0f172a;
+    transition: 0.2s;
+}
+.enlace-auto-registro:hover{
+    color: #ffffff;
+    background-color: var(--color-principal);
+    border-color: var(--color-principal);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
 }
 
 /* =========================
