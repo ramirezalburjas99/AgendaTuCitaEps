@@ -1,11 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link th:href="@{/fragments}">
-</head>
-<body>
+<aside class="barra-lateral"
+       th:fragment="barraLateral"
+       xmlns:th="https://www.thymeleaf.org">
 
-</body>
-</html>
+        <h2 class="lateral-titulo">Filtrar agenda</h2>
+
+    <form class="lateral-form">
+            <!-- Tipo de atención-->
+            <section class="lateral-seccion">
+                <h3>Tipo de atención</h3>
+                <label class="lateral-opcion" for="tipo-consulta">
+                    <input type="radio" id="tipo-consulta" name="tipoAtencion" value="consulta" checked="checked">
+                    Consulta
+                    </label>
+                    <label class="lateral-opcion" for="tipo-control">
+                        <input type="radio" id="tipo-control" name="tipoAtencion" value="control">
+                    Control
+                    </label>
+            </section>
+
+            <!--Especialidad -->
+            <section class="lateral-seccion">
+                <h3>Especialidad</h3>
+            <!--CONECTAR DATOS DESDE LA BD, PARA DESPUES-->
+                <label class="lateral-opcion" for="esp-trauma">
+                    <input type="checkbox" id="esp-trauma" name="especialidad" value="traumatologia">
+                    Traumatologia
+                </label>
+                <label class="lateral-opcion" for="esp-cirugia">
+                    <input type="checkbox" id="esp-cirugia" name="especialidad" value="cirugia">
+                    Cirugia general
+                </label>
+
+                <label class="lateral-opcion" for="esp-cardio">
+                    <input type="checkbox" id="esp-cardio" name="especialidad" value="cardiologia">
+                    Cardiologia
+                </label>
+
+                <label class="lateral-opcion" for="esp-derma">
+                    <input type="checkbox" id="esp-derma" name="especialidad" value="dermatologia">
+                    Dermatologia
+                </label>
+            </section>
+
+            <!-- MODALIDAD DE CITA -->
+            <section class="lateral-seccion">
+                <h3>Modalidad</h3>
+                <label class="lateral-opcion" for="mod-presencial">
+                    <input type="radio" id="mod-presencial" name="modalidad" value="presencial" checked>
+                    Presencial
+                </label>
+
+                <label class="lateral-opcion" for="mod-video">
+                    <input type="radio" id="mod-video" name="modalidad" value="videollamada">
+                    Videollamada
+                </label>
+            </section>
+
+            <!-- Pie de pagina -->
+            <div class="lateral-pie">
+                <button type="reset" class="lateral-restablecer">Restablecer filtros</button>
+            </div>
+    </form>
+</aside>

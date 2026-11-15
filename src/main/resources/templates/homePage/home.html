@@ -2,20 +2,21 @@
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <title>Agenda Fácil</title>
     <link th:href="@{/css/calendario.css}" rel="stylesheet">
     <link th:href="@{/css/layout.css}" rel="stylesheet">
 </head>
-
 <body>
+
 <div th:replace="fragments/barraSuperior :: barraSuperior"></div>
     <div class="contenedor-pagina">
-    <aside>
 
-    </aside>
-    <main>
-        <h1>Agenda</h1>
-        <h2>agenda las citas que necesites con el especialista que deseas</h2>
+        <aside th:replace="fragments/barraLateral :: barraLateral"></aside>
+
+    <main class="contenido-principal">
+        <h1 class="contenido-titulo">Agenda</h1>
+        <p class="contenido-descripcion">agenda las citas que necesites con el especialista que deseas</p>
+
         <div id="contenedor-calendario"></div>
     </main>
     </div>

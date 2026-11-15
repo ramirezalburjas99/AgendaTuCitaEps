@@ -17,7 +17,7 @@ public class AutoRegistroView {
     @Autowired
     private PacientesRepository pacientesRepository;
 
-    @GetMapping("/view/formulario")
+    @GetMapping("/AutoRegistro")
     public String mostrarFormulario(Model model){
         model.addAttribute("pacientes", new Pacientes());
         return "/pacientes/formulario";}
