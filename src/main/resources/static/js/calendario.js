@@ -5,13 +5,11 @@ const MESES = [
 ];
 
 // Horario de la agenda, en minutos desde las 00:00 (siempre en formato 24 h)
-const INICIO = 8 * 60;           // 8:00 a. m.
-const FIN = 17 * 60;             // 5:00 p. m. (el último control es 4:30 p. m.)
+const INICIO = 9 * 60;           // 9:00 a. m.
+const FIN = 16 * 60 + 30;             // 5:00 p. m. (el último control es 4:30 p. m.)
 const PASO = 30;                 // controles de 30 min
-const ALMUERZO_DESDE = 12 * 60;  // 12:00 m.
-const ALMUERZO_HASTA = 14 * 60;  // 2:00 p. m.
-const FILA_PX = 44;
-const FILA_ALMUERZO_PX = 14;
+const FILA_PX = 40;
+
 
 // Datos de demo. "dia": 0 = lunes ... 4 = viernes de la semana actual.
 // Las horas van en 24 h ("14:00"); en pantalla se muestran como 2:00 p. m.
@@ -203,7 +201,7 @@ function crearEvento(ev) {
         const nodo = el("div", "cal-evento cal-cita");
         nodo.append(
             el("span", "cal-evento-principal", ev.paciente),
-            el("span", "cal-evento-detalle", formatoHora12(aMinutos(ev.hora)) + " · " + ev.doctor)
+            el("span", "cal-evento-detalle", formatoHora12(aMinutos(ev.hora)) + " · " + ev.doctor),
         );
         return nodo;
     }
@@ -224,29 +222,14 @@ function crearFilas(grilla) {
         const minutos = INICIO + f * PASO;
         const fila = f + 2; // la fila 1 es el encabezado
 
-        // Etiqueta de hora (solo en horas en punto)
-        const etiqueta = el("div", "cal-hora", minutos % 60 === 0 ? formatoHora12(minutos) : "");
+        const etiqueta = el("div", "cal-hora", minutos % 60 === 0 ? aHora(minutos) : "");
         etiqueta.style.gridRow = fila;
         etiqueta.style.gridColumn = 1;
         grilla.appendChild(etiqueta);
 
-        const enAlmuerzo = minutos >= ALMUERZO_DESDE && minutos < ALMUERZO_HASTA;
-
         for (let d = 0; d < DIAS.length; d++) {
-            // El bloque de almuerzo ocupa dos filas: se crea solo en la primera fila del almuerzo
-            if (enAlmuerzo && minutos !== ALMUERZO_DESDE) continue;
-
             const celda = el("div", "cal-celda");
             celda.style.gridColumn = d + 2;
-
-            if (enAlmuerzo) {
-                celda.classList.add("cal-bloqueado");
-                celda.style.gridRow = fila + " / span " + ((ALMUERZO_HASTA - ALMUERZO_DESDE) / PASO);
-                celda.textContent = "No disponible";
-                grilla.appendChild(celda);
-                continue;
-            }
-
             celda.style.gridRow = fila;
 
             const clave = aClave(sumarDias(lunesActual, d)) + "|" + aHora(minutos);
@@ -281,9 +264,9 @@ function crearPie() {
         const [fecha, hora] = seleccionado.split("|");
         const ev = indiceEventos.get(seleccionado);
         const [, mes, dia] = fecha.split("-");
-        mensaje.textContent = "Seleccionado: " + Number(dia) + "/" + mes + " a las " + formatoHora12(aMinutos(hora)) + " con " + ev.doctor;
+        mensaje.textContent = "Seleccionado: " + Number(dia) + "/" + mes + " a las " + hora + " con " + ev.doctor;
     } else {
-        mensaje.textContent = "Selecciona un horario para agendar";
+        mensaje.textContent = "Selecciona un horario disponible para agendar tu cita.";
     }
 
     pie.append(leyenda, mensaje);
@@ -299,13 +282,7 @@ function renderSemana() {
     const grilla = el("div", "cal-grilla");
     crearEncabezadosDias(grilla);
     crearFilas(grilla);
-
-    const alturas = [];
-    for (let m = INICIO; m < FIN; m += PASO){
-        const almuerzo = m >= ALMUERZO_DESDE && m < ALMUERZO_HASTA;
-        alturas.push((almuerzo ? FILA_ALMUERZO_PX : FILA_PX) + "px");
-    }
-    grilla.style.gridTemplateRows = "64px " + alturas.join(" ");
+    grilla.style.gridTemplateRows = "64px repeat(" + ((FIN- INICIO) / PASO) + ", " + FILA_PX + "px)";
 
     const tarjeta = el("div", "cal-tarjeta");
     tarjeta.append(crearBarraSuperior(viernes), grilla, crearPie());
@@ -333,4 +310,4 @@ function seleccionar(clave) {
     renderSemana();
 }
 
-renderSemana();
+    renderSemana();

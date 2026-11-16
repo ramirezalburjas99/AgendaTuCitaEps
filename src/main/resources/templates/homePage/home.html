@@ -5,6 +5,7 @@
     <title>Agenda Fácil</title>
     <link th:href="@{/css/calendario.css}" rel="stylesheet">
     <link th:href="@{/css/layout.css}" rel="stylesheet">
+    <link th:href="@{/css/filtroDoctores.css}" rel="stylesheet">
 </head>
 <body>
 
@@ -17,7 +18,10 @@
         <h1 class="contenido-titulo">Agenda</h1>
         <p class="contenido-descripcion">agenda las citas que necesites con el especialista que deseas</p>
 
+        <div class="agenda-body">
+            <section th:replace="~{fragments/medicos :: columnaMedicos}"></section>
         <div id="contenedor-calendario"></div>
+        </div>
     </main>
     </div>
 <script th:src="@{/js/calendario.js}"></script>

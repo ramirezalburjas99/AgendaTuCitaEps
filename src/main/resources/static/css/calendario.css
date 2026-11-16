@@ -127,9 +127,7 @@
 /* Grilla */
 #contenedor-calendario .cal-grilla {
     display: grid;
-    grid-template-columns: 72px repeat(5, minmax(0, 1fr));
-    grid-auto-rows: 33px;
-    grid-template-rows: 64px;
+    grid-template-columns: 56px repeat(5, minmax(0, 1fr));
     border-top: 1px solid var(--cal-borde);
 }
 
@@ -188,6 +186,7 @@
     text-align: right;
     font-size: 10px;
     color: var(--cal-suave);
+    white-space: nowrap;
 }
 
 #contenedor-calendario .cal-celda {
@@ -197,15 +196,6 @@
     min-width: 0;
 }
 
-#contenedor-calendario .cal-bloqueado {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--cal-gris-fondo);
-    font-size: 11px;
-    color: #9ca3af;
-}
-
 /* Eventos */
 #contenedor-calendario .cal-evento {
     display: flex;
@@ -213,10 +203,10 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    padding: 0 8px;
+    padding: 0 6px;
     border-radius: 4px;
     text-align: left;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.3;
     overflow: hidden;
 }
