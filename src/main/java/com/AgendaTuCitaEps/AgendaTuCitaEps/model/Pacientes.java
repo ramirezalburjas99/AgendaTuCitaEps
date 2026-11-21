@@ -3,7 +3,7 @@ package com.AgendaTuCitaEps.AgendaTuCitaEps.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name="pacientes")
 @Getter
@@ -48,6 +48,10 @@ public class Pacientes
     private String contactoEmergencia;
 
     @NotBlank(message = "La contraseña es obligatoria")
+    // Esto evita que PacientesController cuando hace GET/API/PACIENTES devuelve la entidad completa
+    // con JsonProperty evita que se envie la contraseña, porque si alguien tiene acceso a esa URL tendría acceso
+    // a todas las contraseñas de los pacientes
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String contrasena;
 
 }
