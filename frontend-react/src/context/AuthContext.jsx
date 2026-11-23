@@ -7,13 +7,13 @@ const AuthContext = createContext(null)
 const CLAVE = 'usuarioLogueado'
 
 //AuthProvider envuelve toda la app (se usa en main.jsx) y reparte la sesión.
-export function AuthProvider({children}) {
+export function AuthProvider({ children }) {
     //useState guarda el paciente. La función inicial intenta recuperarlo de localStorage, 
     // para que al recargar la página (F5) la sesión NO se pierda.
-const [paciente, setPaciente] = useState(() => {
+    const [paciente, setPaciente] = useState(() => {
     try{
         return JSON.parse(localStorage.getItem(CLAVE))
-    } catch{
+    } catch {
         return null
     }
 })
@@ -37,6 +37,7 @@ return (
     </AuthContext.Provedir>
     )
 }
-// Atajo para usar la sesión en cualquier componente = const{ paciente } = useAuth() 
- export const useAuth = () => useContext(AuthContext)
+//Esto le dice a ESLint "ignora la regla en la línea siguiente". No cambia nada
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => useContext(AuthContext)
 
