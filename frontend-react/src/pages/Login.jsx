@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-ruter-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import usePageStyles from "../hooks/usePageStyles.js";
-import { iniciarSesion } from "/services/api.js";
-import { useAuth } from "/context/AuthContext.jsx";
+import { iniciarSesion } from "../services/api.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 // Esta pantalla usa style.css (se quita al salir de ella)
 export default function Login() {
@@ -63,9 +63,9 @@ export default function Login() {
             <h1 className="page-title">Agenda Fácil</h1>
             <p className="description">Organiza tus citas sin complicaciones</p>
             {/* Link cambia de pantalla sinn recargar (reempla al <a href> de Thymealeaf) */}
-            <link className="enlace-auto-registro" to="/registro">
+            <Link className="enlace-auto-registro" to="/registro">
               Registrate aquí
-            </link>
+            </Link>
           </div>
           <div className="card-body">
             {/* onSubmit llama a nuetra función "enviar" en vez de enviar el form a Spring */}
