@@ -1,0 +1,180 @@
+*{box-sizing:border-box}
+:root{
+    --lay-azul:#2563eb;
+    --lay-azul-suave:#eff6ff;
+    --lay-texto:#1f2937;
+    --lay-texto-suave:#6b7280;
+    --lay-borde:#e5e7eb;
+    --lay-fondo:#f3f4f6;
+    --lay-alto-barra:64px;
+}
+body{
+    margin:0;
+    background: var(--lay-fondo);
+    color: var(--lay-texto);
+    font-family:
+            Inter,
+            ui-sans-serif,
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            sans-serif;
+}
+.agenda-body{
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.barra-superior {
+    background: #ffffff;
+    border-bottom: 1px solid var(--lay-borde);
+    display: flex;
+    align-items: center;
+    height: 64px;
+    padding: 0 24px;
+    position: sticky;
+    gap: 40px;
+    top:0;
+    z-index: 100;
+}
+    .barra-marca {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: var(--lay-texto);
+        font-weight: 600;
+    }
+    .barra-logo{
+        height: 36px;
+        width: auto;
+    }
+
+    .barra-usuario {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;;
+    }
+
+    .barra-nav {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+    }
+    .barra-nav a {
+        text-decoration: none;
+        color: var(--lay-texto-suave);
+        display: flex;
+        align-items: center;
+        border-bottom:2px solid transparent;
+        transition: color 0.2s, border-color 0.2s;
+    }
+    .barra-nav a:hover,
+    .barra-nav a.activo {
+        color: var(--lay-azul);
+    }
+    .barra-nav a.activo {
+        border-bottom-color: var(--lay-azul);
+    }
+    .barra-avatar{
+        display: grid;
+        place-items: center;
+        width:36px;
+        height:36px;
+        border-radius: 50%;
+        background: var(--lay-azul-suave);
+        color: var(--lay-azul);
+    }
+    .barra-nombre{
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .barra-salir{
+        text-decoration: none;
+        color: var(--lay-texto-suave);
+        transition: color 0.2s;
+    }
+
+    .barra-salir:hover{color:var(--lay-azul);}
+
+    /*----- ESTRUCTURA DE DOS COLUMNAS---------*/
+    .contenedor-pagina{
+        display:grid;
+        grid-template-columns:280px 1fr;
+        min-height: calc(100vh - var(--lay-alto-barra));
+    }
+    .barra-lateral{
+        background: #ffffff;
+        border-right:1px solid var(--lay-borde);
+        padding: 24px;
+    }
+    .lateral-titulo{
+        margin:0 0 8px;
+        font-size:1.15rem;
+    }
+    .lateral-seccion{
+        padding: 20px 0;
+        border-bottom: 1px solid var(--lay-borde);
+    }
+    .lateral-seccion h3{
+        margin:0 0 12px;
+        font-size:0.85rem;
+        font-weight: 600;
+        color: var(--lay-texto-suave);
+    }
+    .lateral-opcion{
+        display: flex;
+        align-items: center;
+        gap:10px;
+        padding: 6px 0;
+        cursor: pointer;
+    }
+    .lateral-opcion input{
+        accent-color:var(--lay-azul);}
+
+    .lateral-pie{
+        padding-top: 20px;
+        text-align: center;
+    }
+
+    .lateral-restablecer{
+        background: none;
+        border: none;
+        color: var(--lay-azul);
+        cursor: pointer;
+        font-size:0.95rem;}
+
+    .lateral-restablecer:hover{text-decoration:underline;}
+
+    /*-------- CONTENIDO PRINCIPAL------*/
+    .contenido-principal{
+    padding: 24px;
+    min-width: 0; /*EVITA QUE EL CALENDARIO SE DESBORDE LA COLUMNA*/
+    }
+
+    .contenido-titulo{
+        margin: 0 0 4px;
+        font-size: 1.75rem;
+    }
+
+    .contenido-descripcion{
+        margin: 0 0 20px;
+        color: var(--lay-texto-suave);
+    }
+
+    @media(max-width:900px){
+        .contenedor-pagina{grid-template-columns:1fr;}
+        .barra-lateral{border-right: none;
+        border-bottom: 1px solid var(--lay-borde);}
+        .barra-nombre{display: none;}
+        .barra-superior{gap:16px;}
+    }
+
+
+

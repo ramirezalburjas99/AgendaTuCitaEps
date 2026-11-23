@@ -1,0 +1,138 @@
+/* ---------- COLUMNA DE MÉDICOS ---------- */
+:root { --lay-verde: #16a34a; }
+
+.medicos { font-size: 0.85rem; }
+
+.medicos-cabecera { margin-bottom: 16px; }
+
+.medicos-titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 4px;
+    font-size: 1.15rem;
+}
+
+.medicos-contador {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 11px;
+    background: var(--lay-azul-suave);
+    color: var(--lay-azul);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.medicos-subtitulo { margin: 0; color: var(--lay-texto-suave); }
+
+.medicos-buscar {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    margin-bottom: 14px;
+    border: 1px solid var(--lay-borde);
+    border-radius: 8px;
+    background: #fff;
+    font: inherit;
+}
+.medicos-buscar:focus { outline: 2px solid var(--lay-azul); outline-offset: -1px; }
+
+.medicos-todos {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    cursor: pointer;
+}
+.medicos-todos input,
+.medico-check { accent-color: var(--lay-azul); }
+.medicos-todos-texto { flex: 1; color: var(--lay-texto-suave); }
+.medicos-todos-cuenta { font-size: 0.75rem; color: var(--lay-texto-suave); }
+
+/* Tarjeta */
+.medico-card {
+    padding: 16px;
+    margin-bottom: 14px;
+    background: #fff;
+    border: 1px solid var(--lay-borde);
+    border-radius: 12px;
+}
+
+.medico-fila {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.medico-foto {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #dbe4f0;
+}
+
+.medico-datos {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+}
+.medico-datos strong { font-size: 0.95rem; }
+.medico-datos small { color: var(--lay-texto-suave); }
+
+.medico-consultorio {
+    margin: 0 0 8px;
+    color: var(--lay-texto-suave);
+}
+
+.medico-disponible {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    font-weight: 500;
+    color: var(--lay-verde);
+}
+.medico-disponible::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--lay-verde);
+}
+
+.medico-horas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+.medico-horas button {
+    height: 34px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--lay-azul-suave);
+    color: var(--lay-azul);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+}
+.medico-horas button:hover { background: #dbeafe; }
+.medico-horas button:focus-visible { outline: 2px solid var(--lay-azul); outline-offset: 2px; }
+
+.medicos-nota {
+    margin: 18px 0 0;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--lay-texto-suave);
+}
+
+/* En pantallas angostas, médicos arriba y calendario abajo */
+@media (max-width: 1200px) {
+    .agenda-body { grid-template-columns: 1fr; }
+}
