@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login.jsx";
 import Registro from "./pages/Registro.jsx";
 
+//Cada <Routes> dice: (si la URL es esta, muestra esta pantalla)
 export default function App() {
   return (
     <Routes>
