@@ -1,6 +1,7 @@
 package com.AgendaTuCitaEps.AgendaTuCitaEps.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -35,6 +36,10 @@ public class Doctores
     @NotBlank(message = "La licencia medica es obligatoria")
     private String licencia;
 
+    private String especialidad;
+
+    private String consultorio;
+
 
     @NotBlank(message = "El correo es obligatorio")
     private String correo;
@@ -53,6 +58,8 @@ public class Doctores
 
 
     @NotBlank(message = "La contraseña es obligatoria")
+    // Evita que GET /API/DOCTORES envie las contraseñas en el JSON de respuesta
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String contrasena;
 
     @ManyToOne

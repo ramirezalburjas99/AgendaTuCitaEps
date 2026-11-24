@@ -39,4 +39,8 @@ public class Citas
     @Column(nullable = false)
     private EstadoCita estado;
 
+    //Motivo breve de la consulta opcional enviado desde el frontend
+    @Column(length = 255)
+    private String motivo;
+
 }
