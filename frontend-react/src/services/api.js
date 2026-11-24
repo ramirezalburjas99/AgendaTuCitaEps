@@ -39,7 +39,7 @@ async function peticion(ruta, opciones = {}) {
 }
 //POST /api/auth/login ..... devuelve {idPaciente, nombreCompleto, correo}
 export const iniciarSesion = (correo, contrasena) =>
-  peticion("/api(auth/login", {
+  peticion("/api/auth/login", {
     method: "POST",
     body: JSON.stringify({ correo, contrasena }), // convierte el objeto a texto JSON
   });

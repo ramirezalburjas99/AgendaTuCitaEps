@@ -24,9 +24,9 @@ export default function BarraSuperior() {
       </Link>
 
       <nav className="barra-nav">
-        <link to="/home" className="activo">
+        <Link to="/home" className="activo">
           Agenda
-        </link>
+        </Link>
         {/* Pendiente: cuando existan esas pantallas, cambiar "#" por <link to="/"> */}
         <a href="#">Mis citas</a>
         <a href="#">Doctores</a>
@@ -35,9 +35,6 @@ export default function BarraSuperior() {
 
       <div className="barra-usuario">
         {/* El circulo muestra la primera letra del nombre del paciente en sesión */}
-        <span className="barra-avatar">
-          {paciente.nombreCompleto.charAt(0)}
-        </span>
         <span className="barra-nombre">{paciente.nombreCompleto}</span>
         <a href="#" onClick={salir} className="barra-salir">
           Cerrar sesión
