@@ -18,4 +18,5 @@ public class CitaResponseDTO
     private SedeResumenDTO sede;
     private LocalDateTime fechaHora;
     private EstadoCita estado;
+    private String motivo;
 }
