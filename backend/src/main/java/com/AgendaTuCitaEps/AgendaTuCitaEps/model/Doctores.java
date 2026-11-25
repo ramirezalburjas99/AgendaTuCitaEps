@@ -35,9 +35,10 @@ public class Doctores
 
     @NotBlank(message = "La licencia medica es obligatoria")
     private String licencia;
-
+    // Especialidad médica ("Medicina General", "Traumatología", "Pediatría")
     private String especialidad;
 
+    // Consultorio asignado ("Consultorio 204")
     private String consultorio;
 
 
