@@ -49,3 +49,36 @@ export const registrarPaciente = (paciente) =>
     method: "POST",
     body: JSON.stringify(paciente),
   });
+
+// DOCTORES
+
+// GET /api/doctores ..... lista de médicos [{idDoctor, nombreCompleto, especialidad, consultorio, sede}]
+export const obtenerDoctores = () => peticion("/api/doctores");
+
+// GET /api/doctores/{id}/disponibilidad?fecha=2026-11-26
+// Devuelve los horarios (30 min) de ese médico en un día: [{hora, disponible, fechaHoraIso, ...}]
+export const obtenerDisponibilidadDoctor = (idDoctor, fecha) =>
+  peticion(`/api/doctores/${idDoctor}/disponibilidad?fecha=${fecha}`);
+
+//CITAS
+
+// GET /api/citas/agenda-semanal?lunes=2026-11-23&doctorId=1
+// Devuelve las casillas de lunes a viernes de UN médico (disponibles y ocupadas).
+export const obtenerAgendaSemanal = (lunes, idDoctor) =>
+  peticion(`/api/citas/agenda-semanal?lunes=${lunes}&doctorId=${idDoctor}`);
+
+// POST /api/citas ..... agenda una cita. "datos" = {idDoctor, idPaciente, fechaHora, motivo}
+// Si el horario ya fue tomado, el backend responde 409 y peticion() lanza ese mensaje.
+export const agendarCita = (datos) =>
+  peticion("/api/citas", {
+    method: "POST",
+    body: JSON.stringify(datos),
+  });
+
+// GET /api/citas/paciente/{id} ..... todas las citas del paciente (más reciente primero)
+export const obtenerCitasPaciente = (idPaciente) =>
+  peticion(`/api/citas/paciente/${idPaciente}`);
+
+// PATCH /api/citas/{id}/cancelar ..... cambia el estado a CANCELADA y libera el horario
+export const cancelarCita = (idCita) =>
+  peticion(`/api/citas/${idCita}/cancelar`, { method: "PATCH" });
