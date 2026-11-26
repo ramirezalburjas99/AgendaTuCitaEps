@@ -1,5 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+
+// Devuelve "activo" solo para el enlace de la pantalla actual (lo usa NavLink)
+const claseActiva = ({ isActive }) => (isActive ? "activo" : undefined);
 
 export default function BarraSuperior() {
   const { paciente, cerrarSesion } = useAuth();
@@ -24,11 +27,15 @@ export default function BarraSuperior() {
       </Link>
 
       <nav className="barra-nav">
-        <Link to="/home" className="activo">
+        {/* NavLink sabe en qué pantalla estamos: agrega la clase "activo" (subrayado azul)
+            al enlace que corresponde a la ruta actual */}
+        <NavLink to="/home" className={claseActiva}>
           Agenda
-        </Link>
+        </NavLink>
+        <NavLink to="/mis-citas" className={claseActiva}>
+          Mis citas
+        </NavLink>
         {/* Pendiente: cuando existan esas pantallas, cambiar "#" por <link to="/"> */}
-        <a href="#">Mis citas</a>
         <a href="#">Doctores</a>
         <a href="#">Acerca</a>
       </nav>
