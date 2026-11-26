@@ -52,7 +52,7 @@ export default function Login() {
         </div>
       )}
 
-      <div className="login-containe">
+      <div className="login-container">
         <div className="card">
           <div className="card-header" style={{ textAlign: "center" }}>
             <img
