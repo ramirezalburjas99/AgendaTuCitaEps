@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login.jsx";
 import Registro from "./pages/Registro.jsx";
 import Home from "./pages/Home.jsx"; // MODIFICADO
+import MisCitas from "./pages/MisCitas.jsx";
 import RutaPrivada from "./components/RutaPrivada.jsx"; // MODIFICADO
 
 export default function App() {
@@ -16,6 +17,15 @@ export default function App() {
         element={
           <RutaPrivada>
             <Home />
+          </RutaPrivada>
+        }
+      />
+      {/* Mis citas: también protegida, solo con sesión iniciada */}
+      <Route
+        path="/mis-citas"
+        element={
+          <RutaPrivada>
+            <MisCitas />
           </RutaPrivada>
         }
       />

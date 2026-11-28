@@ -85,7 +85,7 @@ export default function Login() {
                   onChange={(e) => setCorreo(e.target.value)}
                 />
               </div>
-              <div className="form.group">
+              <div className="form-group">
                 <label className="form-label" htmlFor="password">
                   Contraseña <span className="required">*</span>
                 </label>
@@ -99,12 +99,12 @@ export default function Login() {
                   onChange={(e) => setContrasena(e.target.value)}
                 />
               </div>
-              {/* diabled evita dar clic dos veces mientras se espera al servidor*/}
+              {/* disabled evita dar clic dos veces mientras se espera al servidor*/}
               <button
                 type="submit"
                 className="btn btn-primary"
                 style={{ width: "100%" }}
-                diabled={cargando}
+                disabled={cargando}
               >
                 {cargando ? "Ingresando..." : "Iniciar Sesión"}
               </button>

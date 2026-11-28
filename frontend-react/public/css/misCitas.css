@@ -1,0 +1,157 @@
+/* Contenido centrado y con ancho cómodo de lectura */
+.mis-citas {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ---------- Pestañas ---------- */
+.citas-pestanas {
+    display: flex;
+    gap: 24px;
+    margin: 8px 0 20px;
+    border-bottom: 1px solid var(--lay-borde);
+}
+.citas-pestanas button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 2px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: var(--lay-texto-suave);
+    font: inherit;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+}
+.citas-pestanas button:hover,
+.citas-pestanas button.activa { color: var(--lay-azul); }
+.citas-pestanas button.activa { border-bottom-color: var(--lay-azul); }
+.citas-pestanas button span {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 11px;
+    background: var(--lay-azul-suave);
+    color: var(--lay-azul);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* ---------- Lista de citas ---------- */
+.citas-lista {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cita-tarjeta {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 18px;
+    background: #fff;
+    border: 1px solid var(--lay-borde);
+    border-radius: 12px;
+}
+
+/* Bloque con el día y el mes (mismo azul suave de la marca) */
+.cita-fecha {
+    flex: none;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    background: var(--lay-azul-suave);
+    color: var(--lay-azul);
+    text-transform: uppercase;
+}
+.cita-fecha strong { font-size: 1.5rem; line-height: 1; }
+.cita-fecha span { font-size: 0.75rem; font-weight: 600; }
+
+.cita-detalle { flex: 1; min-width: 0; }
+.cita-detalle h3 { margin: 0 0 4px; font-size: 1.05rem; }
+.cita-detalle p { margin: 2px 0; color: var(--lay-texto-suave); font-size: 0.9rem; }
+.cita-detalle .cita-cuando { color: var(--lay-texto); font-weight: 500; }
+.cita-cuando::first-letter { text-transform: uppercase; }
+.cita-motivo { font-style: italic; }
+
+/* ---------- Estado y acciones ---------- */
+.cita-acciones {
+    flex: none;
+    display: grid;
+    justify-items: end;
+    gap: 10px;
+}
+
+.cita-estado {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+.cita-estado-confirmada { background: #dcfce7; color: #166534; }
+.cita-estado-finalizada { background: #e5e7eb; color: #4b5563; }
+.cita-estado-cancelada  { background: #fee2e2; color: #b91c1c; }
+
+.cita-btn-cancelar {
+    padding: 6px 14px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fff;
+    color: #b91c1c;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+.cita-btn-cancelar:hover { background: #fef2f2; }
+
+/* Confirmación en dos pasos: "¿Cancelar esta cita? [Sí, cancelar] [No]" */
+.cita-confirmar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    font-size: 0.85rem;
+}
+.cita-confirmar .btn-secundario { height: 32px; padding: 0 12px; }
+.cita-btn-peligro {
+    height: 32px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 8px;
+    background: #dc2626;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.cita-btn-peligro:hover { background: #b91c1c; }
+.cita-btn-peligro:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ---------- Sin citas / cargando / error ---------- */
+.citas-vacio {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    padding: 48px 16px;
+    background: #fff;
+    border: 1px dashed var(--lay-borde);
+    border-radius: 12px;
+    color: var(--lay-texto-suave);
+    text-align: center;
+}
+.citas-vacio p { margin: 0; }
+
+/* En pantallas angostas la tarjeta se apila */
+@media (max-width: 700px) {
+    .cita-tarjeta { flex-wrap: wrap; }
+    .cita-acciones { width: 100%; justify-items: start; }
+}

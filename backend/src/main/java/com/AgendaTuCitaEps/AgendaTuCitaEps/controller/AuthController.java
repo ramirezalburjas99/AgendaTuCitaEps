@@ -24,7 +24,7 @@ public class AuthController {
     public record LoginRequest(String correo, String contrasena) {}
 
     // Forma del JSON que REACT envia al iniciar sesión
-    public record PacienteSesionDTO(Long idPaciente, String noombreCompleto, String correo) {
+    public record PacienteSesionDTO(Long idPaciente, String nombreCompleto, String correo) {
     }
 
     // POST /API/AUTH/LOGIN reemplaza a LoginController.procesarLogin

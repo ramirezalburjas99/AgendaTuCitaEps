@@ -1,0 +1,191 @@
+/* ---------- Lista de médicos ---------- */
+
+/* Tarjeta del médico cuya agenda se está viendo */
+.medico-card-activo {
+    border-color: var(--lay-azul);
+    box-shadow: 0 0 0 1px var(--lay-azul);
+}
+
+/* Texto cuando el médico no tiene horarios hoy (mismo espacio que .medico-disponible) */
+.medico-sin-horas {
+    margin: 0;
+    color: var(--lay-texto-suave);
+    font-weight: 500;
+}
+
+.medicos-error {
+    color: #dc2626;
+}
+
+/* ---------- Calendario ---------- */
+
+/* Casillas libres que ya pasaron: se ven apagadas */
+#contenedor-calendario .cal-celda-pasada {
+    background: var(--cal-gris-fondo);
+}
+
+/* Cita de OTRA persona: gris, para diferenciarla de "Tu cita" (azul) */
+#contenedor-calendario .cal-reservado {
+    background: #eef0f4;
+    border-left-color: #9ca3af;
+}
+#contenedor-calendario .cal-reservado .cal-evento-detalle {
+    color: var(--cal-suave);
+}
+
+/* Muestra de color de la leyenda para "Reservado" */
+#contenedor-calendario .cal-muestra-reservado {
+    border: 1px solid #9ca3af;
+    background: #eef0f4;
+}
+
+/* Mensaje de error del pie del calendario + botón Reintentar */
+#contenedor-calendario .cal-error {
+    color: #dc2626;
+}
+#contenedor-calendario .cal-reintentar {
+    margin-left: 8px;
+    padding: 2px 10px;
+    border: 1px solid var(--cal-borde);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--cal-azul);
+    font-size: 11px;
+}
+
+/* ============================================================
+   ENCABEZADO CON BOTÓN "AGENDAR CITA"
+   ============================================================ */
+
+/* Título a la izquierda, botón a la derecha. El ancho máximo (260 + 20 + 1100) es el
+   mismo que ocupan la lista de médicos + el calendario, así el botón queda
+   alineado justo donde termina la agenda semanal. */
+.contenido-encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    max-width: 1380px;
+}
+
+/* Botón principal (azul de la marca) */
+.btn-agendar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--lay-azul);
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(37, 99, 235, 0.3);
+    transition: background 0.2s;
+}
+.btn-agendar:hover { background: #1d4ed8; }
+.btn-agendar:focus-visible { outline: 2px solid var(--lay-azul); outline-offset: 2px; }
+.btn-agendar:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Botón secundario (borde gris), usado en el modal */
+.btn-secundario {
+    height: 40px;
+    padding: 0 18px;
+    border: 1px solid var(--lay-borde);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--lay-texto);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+}
+.btn-secundario:hover { background: var(--lay-fondo); }
+.btn-secundario:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ---------- Aviso temporal (éxito / ayuda) ---------- */
+.aviso {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    max-width: 1380px;
+    margin: 0 0 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 0.9rem;
+}
+.aviso a { font-weight: 600; text-decoration: underline; }
+.aviso-exito { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+.aviso-info  { background: var(--lay-azul-suave); border-color: #bfdbfe; color: #1e40af; }
+
+/* ============================================================
+   MODAL DE CONFIRMACIÓN
+   ============================================================ */
+.modal-fondo {
+    position: fixed;
+    inset: 0;
+    z-index: 200; /* por encima de la barra superior (z-index 100) */
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.modal {
+    width: 100%;
+    max-width: 460px;
+    padding: 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+}
+
+.modal-titulo { margin: 0 0 16px; font-size: 1.25rem; }
+
+.modal-resumen {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 20px;
+    padding: 14px 16px;
+    background: var(--lay-fondo);
+    border-radius: 8px;
+}
+.modal-resumen > div { display: flex; justify-content: space-between; gap: 16px; }
+.modal-resumen dt { color: var(--lay-texto-suave); font-size: 0.85rem; }
+.modal-resumen dd { margin: 0; font-weight: 500; text-align: right; }
+.modal-capitalizar::first-letter { text-transform: uppercase; }
+
+.modal-etiqueta { display: block; margin-bottom: 6px; font-size: 0.9rem; font-weight: 500; }
+.modal-etiqueta span { color: var(--lay-texto-suave); font-weight: 400; }
+
+.modal-motivo {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--lay-borde);
+    border-radius: 8px;
+    font: inherit;
+    resize: vertical;
+}
+.modal-motivo:focus { outline: 2px solid var(--lay-azul); outline-offset: -1px; }
+
+.modal-error {
+    margin: 12px 0 0;
+    padding: 10px 12px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #b91c1c;
+    font-size: 0.9rem;
+}
+
+.modal-botones { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* En pantallas angostas el botón baja debajo del título */
+@media (max-width: 600px) {
+    .contenido-encabezado { flex-direction: column; }
+}

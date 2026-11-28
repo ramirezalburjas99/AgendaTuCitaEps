@@ -1,232 +1,168 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { obtenerAgendaSemanal } from "../services/api.js";
+import {
+  DIAS,
+  MESES,
+  aClave,
+  aHora,
+  aMinutos,
+  formatoHora12,
+  lunesDe,
+  semanaISO,
+  sumarDias,
+  yaPaso,
+} from "../utils/fechas.js";
 
-const DIAS = ["LUN", "MAR", "MIÉ", "JUE", "VIE"];
-const MESES = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
-
-// Horario de la agenda, en minutos desde las 00:00 (9:00 a. m. = 540 min)
+// Horario de la agenda, en minutos desde las 00:00 (9:00 a. m. = 540 min).
+// Debe coincidir con HORA_INICIO / ULTIMO_TURNO de CitaService.java
 const INICIO = 9 * 60;
 const FIN = 16 * 60 + 30;
 const PASO = 30; // cada casilla dura 30 minutos
 const FILA_PX = 40; // alto de cada fila en píxeles
 
-// ---------- Utilidades de fecha (las mismas del calendario.js) ----------
+/**
+ * Calendario semanal (lunes a viernes) de UN médico.
+ * Es un componente "controlado": el estado importante (médico, semana y horario
+ * seleccionado) vive en Home.jsx y llega por props. Así otros componentes
+ * (la lista de médicos y el botón "Agendar cita") pueden cambiarlo.
+ *
+ * Props:
+ *  - doctorId        id del médico cuya agenda se muestra
+ *  - lunes           Date del lunes de la semana visible
+ *  - onCambiarLunes  función(Date) para cambiar de semana
+ *  - seleccion       horario marcado, con formato "2026-11-26|09:30" (o null)
+ *  - onSeleccionar   función(clave | null) para marcar/desmarcar un horario
+ *  - pacienteId      id del paciente en sesión (para resaltar SUS citas)
+ *  - recarga         número que sube cuando hay que volver a pedir los datos
+ */
+export default function Calendario({
+  doctorId,
+  lunes,
+  onCambiarLunes,
+  seleccion,
+  onSeleccionar,
+  pacienteId,
+  recarga,
+}) {
+  // Sube cuando el usuario presiona "Reintentar" tras un error de red.
+  const [intento, setIntento] = useState(0);
 
-// Devuelve el lunes de la semana de la fecha dada
-function lunesDe(fecha) {
-  const d = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
-  const dia = d.getDay(); // 0 = domingo ... 6 = sábado
-  d.setDate(d.getDate() + (dia === 0 ? -6 : 1 - dia));
-  return d;
-}
+  // Resultado de la última petición. Guarda a qué médico/semana pertenece ("base")
+  // y a qué petición exacta respondió ("clave"), para saber si todavía está al día.
+  const [resultado, setResultado] = useState({
+    base: null,
+    clave: null,
+    slots: [],
+    error: "",
+  });
 
-// Devuelve una fecha nueva sumando (o restando) n días
-function sumarDias(fecha, n) {
-  const d = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
-  d.setDate(d.getDate() + n);
-  return d;
-}
+  const lunesTexto = aClave(lunes);
+  const base = `${doctorId}|${lunesTexto}`;
+  const claveActual = `${base}|${recarga}|${intento}`;
 
-// Convierte una fecha a texto "2026-11-21". Sirve como identificador de un día.
-function aClave(fecha) {
-  const m = String(fecha.getMonth() + 1).padStart(2, "0");
-  const d = String(fecha.getDate()).padStart(2, "0");
-  return `${fecha.getFullYear()}-${m}-${d}`;
-}
+  // ---------- Pedir la agenda al backend ----------
+  // GET /api/citas/agenda-semanal?lunes=...&doctorId=...
+  useEffect(() => {
+    if (doctorId == null) return; // todavía no se sabe qué médico mostrar
+    let activo = true; // si el usuario cambia de semana antes de que llegue, se ignora la respuesta
 
-// 570 minutos -> "09:30"
-function aHora(minutos) {
-  return `${String(Math.floor(minutos / 60)).padStart(2, "0")}:${String(minutos % 60).padStart(2, "0")}`;
-}
+    obtenerAgendaSemanal(lunesTexto, doctorId)
+      .then((slots) => {
+        if (activo)
+          setResultado({ base, clave: claveActual, slots, error: "" });
+      })
+      .catch((err) => {
+        if (activo)
+          setResultado({
+            base,
+            clave: claveActual,
+            slots: [],
+            error: err.message,
+          });
+      });
 
-// "09:30" -> 570
-function aMinutos(hora) {
-  const [h, m] = hora.split(":").map(Number);
-  return h * 60 + m;
-}
+    return () => {
+      activo = false;
+    };
+  }, [doctorId, lunesTexto, base, claveActual]);
 
-// 570 minutos -> "9:30 a. m."
-function formatoHora12(minutos) {
-  const h24 = Math.floor(minutos / 60);
-  const m = String(minutos % 60).padStart(2, "0");
-  const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
-  return `${h12}:${m} ${h24 >= 12 ? "p. m." : "a. m."}`;
-}
+  // "cargando" = lo último que llegó no corresponde a lo que se está pidiendo ahora
+  const cargando = doctorId != null && resultado.clave !== claveActual;
+  // Mientras recarga la misma semana se siguen mostrando los datos anteriores (sin parpadeo)
+  const slots = resultado.base === base ? resultado.slots : [];
+  const error = resultado.clave === claveActual ? resultado.error : "";
 
-// Número de semana del año (estándar ISO)
-function semanaISO(fecha) {
-  const d = new Date(
-    Date.UTC(fecha.getFullYear(), fecha.getMonth(), fecha.getDate()),
-  );
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-  const inicioAnio = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  return Math.ceil(((d - inicioAnio) / 86400000 + 1) / 7);
-}
+  // Índice para buscar rápido: "2026-11-26|09:00" -> casilla de ese día y hora
+  const indice = new Map(slots.map((s) => [`${s.fecha}|${s.hora}`, s]));
 
-// ---------- Datos de demostración ----------
-// "dia": 0 = lunes ... 4 = viernes. Luego se reemplazan por GET /api/citas.
-const eventosDemo = [
-  {
-    tipo: "cita",
-    dia: 0,
-    hora: "09:00",
-    paciente: "Elena García",
-    doctor: "A. Martínez",
-  },
-  {
-    tipo: "cita",
-    dia: 0,
-    hora: "09:30",
-    paciente: "Jorge Mendoza",
-    doctor: "C. Ruiz",
-  },
-  { tipo: "disponible", dia: 0, hora: "10:00", doctor: "A. Martínez" },
-  { tipo: "disponible", dia: 0, hora: "10:30", doctor: "C. Ruiz" },
-  { tipo: "disponible", dia: 0, hora: "11:00", doctor: "L. Torres" },
-  { tipo: "disponible", dia: 0, hora: "11:30", doctor: "A. Martínez" },
-  { tipo: "disponible", dia: 0, hora: "14:00", doctor: "A. Martínez" },
-  { tipo: "disponible", dia: 0, hora: "14:30", doctor: "L. Torres" },
-  { tipo: "disponible", dia: 0, hora: "15:00", doctor: "C. Ruiz" },
-  {
-    tipo: "cita",
-    dia: 1,
-    hora: "09:00",
-    paciente: "Pablo Sánchez",
-    doctor: "C. Ruiz",
-  },
-  { tipo: "disponible", dia: 1, hora: "10:00", doctor: "A. Martínez" },
-  {
-    tipo: "cita",
-    dia: 1,
-    hora: "11:00",
-    paciente: "Sofía Herrera",
-    doctor: "L. Torres",
-  },
-  {
-    tipo: "cita",
-    dia: 1,
-    hora: "14:00",
-    paciente: "Diego Morales",
-    doctor: "A. Martínez",
-  },
-  { tipo: "disponible", dia: 1, hora: "15:30", doctor: "L. Torres" },
-  {
-    tipo: "cita",
-    dia: 2,
-    hora: "09:30",
-    paciente: "Valeria López",
-    doctor: "A. Martínez",
-  },
-  { tipo: "disponible", dia: 2, hora: "10:30", doctor: "L. Torres" },
-  { tipo: "disponible", dia: 2, hora: "14:00", doctor: "A. Martínez" },
-  {
-    tipo: "cita",
-    dia: 2,
-    hora: "15:00",
-    paciente: "Marta Fernández",
-    doctor: "L. Torres",
-  },
-  {
-    tipo: "cita",
-    dia: 4,
-    hora: "09:30",
-    paciente: "Camila Flores",
-    doctor: "A. Martínez",
-  },
-  { tipo: "disponible", dia: 4, hora: "11:00", doctor: "C. Ruiz" },
-  { tipo: "disponible", dia: 4, hora: "14:30", doctor: "A. Martínez" },
-  {
-    tipo: "cita",
-    dia: 4,
-    hora: "16:00",
-    paciente: "Luis Vega",
-    doctor: "C. Ruiz",
-  },
-];
-
-// Crea un índice para buscar rápido: "2026-11-23|09:00" -> evento de ese día y hora.
-// Los eventos de demo se ubican en la semana actual.
-function construirIndice() {
-  const lunes = lunesDe(new Date());
-  const indice = new Map();
-  for (const ev of eventosDemo) {
-    const fecha = aClave(sumarDias(lunes, ev.dia));
-    indice.set(`${fecha}|${ev.hora}`, { ...ev, fecha });
-  }
-  return indice;
-}
-
-export default function Calendario() {
-  // ESTADO 1: lunes de la semana que se está mostrando (empieza en la semana actual)
-  const [lunesActual, setLunesActual] = useState(() => lunesDe(new Date()));
-  // ESTADO 2: horario marcado por el usuario (null = ninguno)
-  const [seleccionado, setSeleccionado] = useState(null);
-  // Los eventos se calculan una sola vez
-  const [indiceEventos] = useState(construirIndice);
-
-  const viernes = sumarDias(lunesActual, 4);
+  const viernes = sumarDias(lunes, 4);
   const claveHoy = aClave(new Date());
   const totalFilas = (FIN - INICIO) / PASO;
 
+  // ---------- Acciones del usuario ----------
+
   // Flechas de semana: dir = -1 (anterior) o 1 (siguiente)
   const cambiarSemana = (dir) => {
-    setLunesActual(sumarDias(lunesActual, dir * 7));
-    setSeleccionado(null); // al cambiar de semana se quita la selección
+    onCambiarLunes(sumarDias(lunes, dir * 7));
+    onSeleccionar(null); // al cambiar de semana se quita la selección
   };
   // Botón "Hoy": vuelve a la semana actual
   const irAHoy = () => {
-    setLunesActual(lunesDe(new Date()));
-    setSeleccionado(null);
+    onCambiarLunes(lunesDe(new Date()));
+    onSeleccionar(null);
   };
   // Clic en un horario: lo marca; si ya estaba marcado, lo desmarca
   const seleccionar = (clave) =>
-    setSeleccionado(seleccionado === clave ? null : clave);
+    onSeleccionar(seleccion === clave ? null : clave);
 
-  // Texto del pie del calendario
+  // ---------- Texto del pie del calendario ----------
   const mensaje = () => {
-    if (!seleccionado)
+    if (doctorId == null) return "No hay médicos disponibles por ahora.";
+    if (error) return error;
+    if (cargando) return "Cargando agenda…";
+    if (!seleccion)
       return "Selecciona un horario disponible para agendar tu cita.";
-    const [fecha, hora] = seleccionado.split("|");
-    const ev = indiceEventos.get(seleccionado);
+    const [fecha, hora] = seleccion.split("|");
     const [, mes, dia] = fecha.split("-");
-    return `Seleccionado: ${Number(dia)}/${mes} a las ${hora} con ${ev.doctor}`;
+    const doctor = indice.get(seleccion)?.nombreDoctor ?? "el médico elegido";
+    return `Seleccionado: ${Number(dia)}/${mes} a las ${hora} con ${doctor}`;
   };
 
-  // Dibuja el contenido de una casilla: una cita (no se puede tocar) o un horario libre (botón)
-  const renderEvento = (ev, clave) => {
-    if (ev.tipo === "cita") {
+  // ---------- Dibujo de una casilla ----------
+  // Devuelve el contenido de la celda según el tipo de casilla que mandó el backend.
+  const renderCasilla = (slot, clave) => {
+    // CASILLA OCUPADA: ya existe una cita confirmada en ese horario
+    if (slot.tipo === "cita") {
+      const esMia = slot.idPaciente === pacienteId;
       return (
-        <div className="cal-evento cal-cita">
-          <span className="cal-evento-principal">{ev.paciente}</span>
+        // Las citas de otras personas se muestran como "Reservado" (sin su nombre)
+        <div className={`cal-evento cal-cita${esMia ? "" : " cal-reservado"}`}>
+          <span className="cal-evento-principal">
+            {esMia ? "Tu cita" : "Reservado"}
+          </span>
           <span className="cal-evento-detalle">
-            {formatoHora12(aMinutos(ev.hora))} · {ev.doctor}
+            {formatoHora12(aMinutos(slot.hora))}
+            {esMia ? ` · ${slot.nombreDoctor}` : ""}
           </span>
         </div>
       );
     }
+
+    // CASILLA LIBRE EN EL PASADO: no se puede agendar, se deja vacía
+    if (yaPaso(slot.fecha, slot.hora)) return null;
+
+    // CASILLA LIBRE: botón para seleccionarla
     return (
       <button
         type="button"
         // si es el horario marcado, se le agrega la clase "seleccionado"
-        className={`cal-evento cal-disponible${clave === seleccionado ? " seleccionado" : ""}`}
+        className={`cal-evento cal-disponible${clave === seleccion ? " seleccionado" : ""}`}
         onClick={() => seleccionar(clave)}
       >
         <span className="cal-evento-principal">
-          {formatoHora12(aMinutos(ev.hora))} · Disponible
+          {formatoHora12(aMinutos(slot.hora))} · Disponible
         </span>
-        <span className="cal-evento-detalle">{ev.doctor}</span>
+        <span className="cal-evento-detalle">{slot.nombreDoctor}</span>
       </button>
     );
   };
@@ -247,7 +183,7 @@ export default function Calendario() {
 
   // Fila 1: encabezados de los 5 días (columnas 2 a 6)
   DIAS.forEach((nombre, i) => {
-    const fecha = sumarDias(lunesActual, i);
+    const fecha = sumarDias(lunes, i);
     const esHoy = aClave(fecha) === claveHoy;
     celdas.push(
       <div
@@ -279,17 +215,19 @@ export default function Calendario() {
       </div>,
     );
 
-    // Columnas 2 a 6: una celda por día; si hay un evento a esa hora, se dibuja adentro
+    // Columnas 2 a 6: una celda por día; si el backend mandó una casilla, se dibuja adentro
     for (let d = 0; d < DIAS.length; d++) {
-      const clave = `${aClave(sumarDias(lunesActual, d))}|${aHora(minutos)}`;
-      const ev = indiceEventos.get(clave);
+      const fechaTexto = aClave(sumarDias(lunes, d));
+      const hora = aHora(minutos);
+      const clave = `${fechaTexto}|${hora}`;
+      const slot = indice.get(clave);
       celdas.push(
         <div
           key={`c-${f}-${d}`}
-          className="cal-celda"
+          className={`cal-celda${yaPaso(fechaTexto, hora) ? " cal-celda-pasada" : ""}`}
           style={{ gridRow: fila, gridColumn: d + 2 }}
         >
-          {ev && renderEvento(ev, clave)}
+          {slot && renderCasilla(slot, clave)}
         </div>,
       );
     }
@@ -301,7 +239,7 @@ export default function Calendario() {
         <div className="cal-barra">
           <div className="cal-barra-izq">
             <h3 className="cal-titulo">
-              {MESES[lunesActual.getMonth()]} {lunesActual.getFullYear()}
+              {MESES[lunes.getMonth()]} {lunes.getFullYear()}
             </h3>
             <button
               type="button"
@@ -348,8 +286,8 @@ export default function Calendario() {
         </div>
         <div className="cal-rango">
           <span>
-            {lunesActual.getDate()} – {viernes.getDate()} de{" "}
-            {MESES[viernes.getMonth()]} · Semana {semanaISO(lunesActual)}
+            {lunes.getDate()} – {viernes.getDate()} de{" "}
+            {MESES[viernes.getMonth()]} · Semana {semanaISO(lunes)}
           </span>
           <span>Controles de {PASO} min</span>
         </div>
@@ -367,7 +305,11 @@ export default function Calendario() {
         <div className="cal-leyenda">
           <span className="cal-leyenda-item">
             <i className="cal-muestra cal-muestra-cita" />
-            Cita confirmada
+            Tu cita
+          </span>
+          <span className="cal-leyenda-item">
+            <i className="cal-muestra cal-muestra-reservado" />
+            Reservado
           </span>
           <span className="cal-leyenda-item">
             <i className="cal-muestra cal-muestra-disp" />
@@ -375,8 +317,20 @@ export default function Calendario() {
           </span>
         </div>
         {/* aria-live avisa a los lectores de pantalla cuando el mensaje cambia */}
-        <span className="cal-mensaje" aria-live="polite">
+        <span
+          className={`cal-mensaje${error ? " cal-error" : ""}`}
+          aria-live="polite"
+        >
           {mensaje()}
+          {error && (
+            <button
+              type="button"
+              className="cal-reintentar"
+              onClick={() => setIntento(intento + 1)}
+            >
+              Reintentar
+            </button>
+          )}
         </span>
       </div>
     </div>
